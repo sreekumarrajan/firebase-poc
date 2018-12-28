@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
+import {auth} from 'firebase';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +11,13 @@ import {Observable} from 'rxjs';
 })
 export class AppComponent {
   title = 'firebase-poc';
-  items$: Observable<any>;
-  constructor(db: AngularFirestore) {
-    this.items$ = db.collection('items').valueChanges();
 
+  constructor(public afAuth: AngularFireAuth) {
+  }
+  login() {
+    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+  }
+  logout() {
+    this.afAuth.auth.signOut();
   }
 }
